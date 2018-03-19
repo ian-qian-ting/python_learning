@@ -1,0 +1,70 @@
+#!/bin/python
+#rock paper scissors game
+
+import time
+import random
+
+class game:
+    'rock-paper-scissor game'
+#tuple to store rock paper scissor
+    status = ('rock','paper','scissor')
+
+    def __init__(self):
+        random.seed(time.time())
+
+    def getPlayer2(self):
+        return self.status[random.randrange(0,3,1)]
+
+    def compPlayers(self, player1, player2):
+        if (player1 == 'rock' and player2 == 'scissor') or (player1 == 'scissor'and player2 == 'paper') or (player1 == 'paper' and player2 == 'rock'):
+            print("congrats! You win!")
+        elif ((player2 == 'rock' and player1 == 'scissor') or (player2 == 'scissor' and player1 == 'paper') or (player2 == 'paper' and player1 == 'rock')):
+                 print("Sorry! You lose...")
+        else:
+            print("It's a tie!")
+#        switch (player1,player2):
+#            case ('rock','scissor'):
+#            case ('scissor','paper'):
+#            case ('paper','rock'):
+#                print("congrats! You win!")
+#                break
+#            case ('scissor','rock'):
+#            case ('paper','scissor'):
+#            case ('rock','paper'):
+#                print("Sorry, You lose...")
+#                break
+#            default:
+#                print("It's a tie!")
+        return           
+    def run(self):
+        print("Welcome to rock-paper-scissor game!");
+        while True:
+            self.mode = raw_input("input 1 for one player mode, 2 for two players mode and q for quit:")
+#            switch self.mode:
+#                case '1':
+            if self.mode == '1':
+                self.player1 = ''
+                while self.player1 != 'q':
+                    print("1 player mode, enter q to quit 1 player mode!")
+                    self.player1 = raw_input("what you want give('rock','paper' or 'scissor'):")
+                    if self.player1 not in self.status:
+                        if self.player1 == 'q':
+                            break
+                        else:
+                            print("sorry, I don't know what this is...")
+                            continue
+                    self.player2 = self.getPlayer2()
+                    print("PC give {}".format(self.player2))
+                    self.compPlayers(self.player1,self.player2)
+#                case '2':
+            elif self.mode == '2':
+                print("sorry, two player mode in maintainence...")
+                break
+#                case 'q':
+            else:
+                print("Bye Bye")
+                return
+        
+if game.__module__ == "__main__":
+        g1 = game()
+        g1.run()
