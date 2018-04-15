@@ -1,8 +1,11 @@
 #!/bin/python
 #transform an sorted array into binary tree
+#from builtins import input as raw_input
+import random
+import time
 
 class TreeNode:
-    def __init__(self,node,key,value,parent=None,left=None,right=None):
+    def __init__(self,key,value,parent=None,left=None,right=None):
         self.key = key
         self.value = value
         self.parent = parent
@@ -31,13 +34,13 @@ class TreeNode:
         return self.hasLeftChild() and self.hasRightChild()
 
     def hasSingleChild(self):
-        return (self.leftChild or self.rightChild) and (not hasBothChildren())
+        return (self.leftChild or self.rightChild) and (not self.hasBothChildren())
 
     def replaceNodeData(self,replaceNode):
         self.key = replaceNode.key
         self.value = replaceNode.value
-        self.leftNode = replaceNode.leftNode
-        self.rightNode = replaceNode.rightNode
+        self.leftChild = replaceNode.leftChild
+        self.rightChild = replaceNode.rightChild
 
     def __iter__(self):
         if self:
@@ -68,7 +71,7 @@ class BinarySearchTree:
             if currentNode.hasRightChild():
                 self._set(currentNode.rightChild,key,value)
             else:
-                currentNode.rightChild = NodeTree(key,value,parent=currentNode)
+                currentNode.rightChild = TreeNode(key,value,parent=currentNode)
 
     '''inset node'''
     def set(self,key,value):
@@ -84,7 +87,7 @@ class BinarySearchTree:
     def __setitem__(self,key,value):
         self.set(key,value)
 
-    def _get(currentNode,key):
+    def _get(self,currentNode,key):
         if not currentNode:
             return None
         elif key == currentNode.key:
@@ -123,13 +126,13 @@ class BinarySearchTree:
         return min
 
     def _delete(self,deleteNode):
-        '''remove leaf'''
+        #remove leaf
         if deleteNode.isLeaf():
             if deleteNode.parent.leftChild == deleteNode:
                 deleteNode.parent.leftChild = None
             else:
                 deleteNode.parent.rightChild = None
-        '''remove node with one childNode'''
+        #remove node with one childNode
         elif deleteNode.hasSingleChild():
             if deleteNode.hasLeftChild():
                 if deleteNode.isLeftChild():
@@ -149,10 +152,11 @@ class BinarySearchTree:
                     deleteNode.legtChild.parent = deleteNode.parent
                 else:
                     deleteNode.replaceNodeData(deleteNode.rightChild)
-        '''remove node with both ChildNodes'''
-        '''notice successor node has no more than one child(rightChild only)'''
-        '''we search for smallest key node from deleteNode right subtree'''
-        '''the node must be a leftChild of its parent except it's rightChild of deleteNode'''
+        # remove node with both ChildNodes
+        # notice successor node has no more than one child(rightChild only)
+        #   we search for smallest key node from deleteNode right subtree
+        #   the node must be a leftChild of its parent except it's rightChild of deleteNode
+
         else:
             res = getMin(deleteNode.rightChild) 
             if res.hasRightChild():
@@ -191,14 +195,26 @@ class BinarySearchTree:
 
 if __name__ == "__main__":
 # get input array
-a = raw_input("Please enter values for your array:")
-a_list = map(int,a.split(' '))
-set(a_list)
-tree = BinarySearchTree()
-# use array value as key 
-for x in a_list:
-    tree.set(x,0)
-for key in tree.root
-    print tree.root[key] 
-
-    
+    a = input("Please enter values for your array:")
+    print(a)
+    a_list = list(map(int,a.split(' ')))
+    print(a_list)
+    a_list.sort()
+    print("the array is:")
+    print(a_list)
+    tree1 = BinarySearchTree()
+    # use array value as value sequence as key
+    print("set tree1 value")
+    for i,x in zip(range(len(a_list)),a_list):
+        tree1.set(i,x)
+    print("print tree1 value")
+    for i in range(len(a_list)):
+        print("key %s value: %s"%(i,tree1[i]))
+    # use array value as key and random value as node value
+    tree2 = BinarySearchTree()
+    random.seed(time.time())
+    print("set tree2 value")
+    for j in a_list:
+        tree2.set(j,random.random())
+    for j in a_list:
+        print("kdy %s value: %s"%(j,tree2[j]))
